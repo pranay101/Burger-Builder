@@ -1,42 +1,63 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
-import UserInput from './UserInput/UserInput';
-import UserOutput from './UserOutput/UserOutput';
-
+import Person from "./Person/Person";
 class App extends Component {
   state = {
-    username: 'supermax'
-  }
+    person: [
+      { name: "pranay", age: "21" },
+      { name: "hello", age: "31" },
+      { name: "svsvfv", age: "61" },
+    ],
+    showPerson: false,
+  };
 
+  toggleContentHandler = () => {
+    const defaultstate = this.state.showPerson;
+    this.setState({ showPerson: !defaultstate });
+  };
   usernameChangedHandler = (event) => {
-    this.setState({username: event.target.value});
-  }
+    this.setState({
+      person: [
+        { name: event.target.value, age: "21" },
+        { name: "hello", age: "31" },
+        { name: "svsvfv", age: "61" },
+      ],
+    });
+  };
 
   render() {
+    let person = null;
+    if (this.state.showPerson) {
+      person = (
+        <div>
+          <Person
+            name={this.state.person[0].name}
+            age={this.state.person[0].age}
+            changed={this.usernameChangedHandler}
+          />
+          <Person
+            name={this.state.person[1].name}
+            age={this.state.person[1].age}
+            changed={this.usernameChangedHandler}
+          >
+            and i like to cycle
+          </Person>
+          <Person
+            name={this.state.person[2].name}
+            age={this.state.person[2].age}
+            changed={this.usernameChangedHandler}
+          />
+        </div>
+      );
+    }
     return (
       <div className="App">
-        <ol>
-          <li>Create TWO new components: UserInput and UserOutput</li>
-          <li>UserInput should hold an input element, UserOutput two paragraphs</li>
-          <li>Output multiple UserOutput components in the App component (any paragraph texts of your choice)</li>
-          <li>Pass a username (of your choice) to UserOutput via props and display it there</li>
-          <li>Add state to the App component (=> the username) and pass the username to the UserOutput component</li>
-          <li>Add a method to manipulate the state (=> an event-handler method)</li>
-          <li>Pass the event-handler method reference to the UserInput component and bind it to the input-change event</li>
-          <li>Ensure that the new input entered by the user overwrites the old username passed to UserOutput</li>
-          <li>Add two-way-binding to your input (in UserInput) to also display the starting username</li>
-          <li>Add styling of your choice to your components/ elements in the components - both with inline styles and stylesheets</li>
-        </ol>
-        <UserInput 
-          changed={this.usernameChangedHandler} 
-          currentName={this.state.username} />
-        <UserOutput userName={this.state.username} changedUsername={this.state.username} />
-        <UserOutput userName={this.state.username} />
-        <UserOutput userName="Max" />
+        <h1>Welcome to my react app!!</h1>
+        <button onClick={this.toggleContentHandler}>switch</button>
+        {person}
       </div>
     );
   }
 }
-
 export default App;
